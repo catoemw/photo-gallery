@@ -41,7 +41,6 @@ ThumbnailView.prototype = Object.create(View.prototype);
 ThumbnailView.prototype.render = function () {
 	var _this = this;
 	this.element.style.backgroundImage = 'url(' + this.data.src + ')';
-	this.element.style.backgroundSize = 'cover';
 	this.element.classList.add('thumbnail');
 	this.bindEvents();
 };
