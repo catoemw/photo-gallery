@@ -5,7 +5,7 @@ var photos = [
 ];
 
 function View (tagName, obj) {
-	this.element = document.createElement(tagName);
+	this.element = $(document.createElement(tagName));
 	this.data = obj || null;
 }
 
@@ -20,14 +20,14 @@ GalleryView.prototype = Object.create(View.prototype);
 
 GalleryView.prototype.render = function () {
 	var _this = this;
-	this.element.id = 'gallery';
+	this.element.attr('id', 'gallery'); //
 	var largeView = new LargeView ('div', photos[0]);
 	largeView.render();
-	this.element.appendChild(largeView.element)
+	this.element.append(largeView.element) //
 	this.data.forEach(function (photo) {
 		var thumbnailView = new ThumbnailView ('div', photo);
 		thumbnailView.render();
-		_this.element.appendChild(thumbnailView.element);
+		_this.element.append(thumbnailView.element); //
 	});
 };
 
@@ -40,17 +40,17 @@ ThumbnailView.prototype = Object.create(View.prototype);
 
 ThumbnailView.prototype.render = function () {
 	var _this = this;
-	this.element.style.backgroundImage = 'url(' + this.data.src + ')';
-	this.element.classList.add('thumbnail');
+	this.element.css('background-image', 'url(' + this.data.src + ')')
+		.addClass('thumbnail'); //
 	this.bindEvents();
 };
 
 ThumbnailView.prototype.bindEvents = function () {
 	var _this = this;
 	var photoTarget = this.element;
-	photoTarget.addEventListener('click', function () {
-		var largeView = document.querySelector('div.large'); 
-		largeView.style.backgroundImage = 'url(' + _this.data.src + ')';
+	photoTarget.on('click', function () {
+		var largeView = $('div.large')
+			.css('background-image', 'url(' + _this.data.src + ')'); //
 	})
 };
 
@@ -62,22 +62,22 @@ LargeView.prototype = Object.create(View.prototype);
 
 LargeView.prototype.render = function () {
 	var _this = this;
-	this.element.style.backgroundImage = 'url(' + this.data.src + ')';
-	this.element.classList.add('large');
+	this.element.css('background-image', 'url(' + this.data.src + ')')
+		.addClass('large'); //
 	this.bindEvents();
 };
 
 LargeView.prototype.bindEvents = function () {
 	var _this = this;
-	this.element.addEventListener('click', function () {
-		_this.element.classList.toggle('full');	
+	this.element.on('click', function () {
+		_this.element.toggleClass('full'); //	
 	});
 };
 
 var galleryView = new GalleryView('div', photos);
 galleryView.render();
 
-document.body.appendChild(galleryView.element);
+$('body').append(galleryView.element);
 
 
 
